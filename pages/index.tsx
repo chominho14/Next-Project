@@ -36,7 +36,7 @@ const Home: NextPage = () => {
           </button>
         </div>
       </div>
-      <div className="bg-white overflow-hidden rounded-3xl shadow-xl">
+      <div className="bg-white overflow-hidden rounded-3xl shadow-xl group">
         <div className="bg-blue-500 p-6 pb-14">
           <span className="text-white text-2xl">Profile</span>
         </div>
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
               <span className="text-sm text-gray-500">Orders</span>
               <span className="font-medium">340</span>
             </div>
-            <div className="h-24 w-24 bg-red-400 rounded-full" />
+            <div className="h-24 w-24 bg-zinc-300 rounded-full group-hover:bg-red-300 transition-colors" />
             <div className="flex flex-col items-center">
               <span className="text-sm text-gray-500">Spent</span>
               <span className="font-medium">$340</span>
@@ -97,7 +97,26 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="bg-white p-10 rounded-2xl shadow-xl"></div>
+      <div className="bg-white p-10 rounded-2xl shadow-xl">
+        <form className="flex flex-col space-y-2 p-5">
+          <input
+            type="text"
+            required
+            placeholder="Username"
+            className="border p-1 peer border-gray-400 rounded"
+          />
+          <span className="hidden peer-invalid:block peer-invalid:text-red-500">
+            This input is invalid
+          </span>
+          <span className="hidden peer-valid:block peer-valid:text-teal-500">
+            Awesome username
+          </span>
+          <span className="hidden peer-hover:block peer-valid:text-amber-500">
+            Hello
+          </span>
+          <input type="submit" value="Login" className="bg-white" />
+        </form>
+      </div>
     </div>
   );
 };
