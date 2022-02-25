@@ -117,6 +117,10 @@ const Home: NextPage = () => {
           <input type="submit" value="Login" className="bg-white" />
         </form>
       </div>
+
+      <p className="first-letter:text-7xl first-letter:hover:text-teal-500">
+        leffefdfefasfdefsa sefij eifj ei jdf
+      </p>
     </div>
   );
 };
