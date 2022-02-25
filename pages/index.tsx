@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 const Home: NextPage = () => {
   return (
     <div className="bg-slate-400 py-20 px-20 grid gap-10 min-h-screen">
-      <div className="bg-white p-6 rounded-3xl shadow-xl">
+      <div className="bg-white sm:hover:bg-pink-200 sm:bg-red-400 md:bg-teal-200 lg:bg-indigo-400 xl:bg-yellow-100 p-6 rounded-3xl shadow-xl">
         <span className="font-semibold text-3xl">Select Item</span>
         <ul>
           {[1, 2, 3, 4, 5].map(i => (
@@ -117,10 +117,6 @@ const Home: NextPage = () => {
           <input type="submit" value="Login" className="bg-white" />
         </form>
       </div>
-
-      <p className="first-letter:text-7xl first-letter:hover:text-teal-500">
-        leffefdfefasfdefsa sefij eifj ei jdf
-      </p>
     </div>
   );
 };
