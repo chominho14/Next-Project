@@ -2,14 +2,18 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="bg-slate-400 py-20 px-20 xl:place-content-center grid gap-10 lg:grid-cols-2 xl:grid-cols-3 min-h-screen">
-      <div className="bg-white flex flex-col justify-between p-6 rounded-3xl shadow-xl">
-        <span className="font-semibold text-3xl">Select Item</span>
+    <div className="bg-slate-400 dark py-20 px-20 xl:place-content-center grid gap-10 lg:grid-cols-2 xl:grid-cols-3 min-h-screen">
+      <div className="bg-white dark:bg-black flex flex-col justify-between p-6 rounded-3xl shadow-xl">
+        <span className="font-semibold dark:text-white text-3xl">
+          Select Item
+        </span>
         <ul>
           {[1, 2, 3, 4, 5].map(i => (
             <div key={i} className="flex justify-between my-2">
-              <span className="text-gray-500">Grey Chair</span>
-              <span className="font-semibold">$19</span>
+              <span className="text-gray-500 dark:text-gray-100">
+                Grey Chair
+              </span>
+              <span className="font-semibold dark:text-white">$19</span>
             </div>
           ))}
         </ul>
@@ -22,13 +26,13 @@ const Home: NextPage = () => {
         </ul>
         <div className="flex justify-between mt-2 pt-2 border-t-2 border-dashed ">
           <span className="">Total</span>
-          <span className="font-semibold">$10</span>
+          <span className="font-semibold dark:text-white">$10</span>
         </div>
         <div className="flex items-center">
           <button
-            className="mt-5 bg-blue-500 text-white p-3
+            className="mt-5 bg-blue-500 text-white p-3 dark:bg-black dark:border-whte dark:border
            text-center rounded-xl w-2/4 mx-auto
-           hover:bg-teal-500 hover:text-black
+           dark:hover:bg-white hover:bg-teal-500 hover:text-black 
            active:bg-yellow-500 focus:bg-red-500
            "
           >
