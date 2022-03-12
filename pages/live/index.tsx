@@ -5,7 +5,7 @@ import FloatingButton from "../../components/floating-button";
 
 const Live: NextPage = () => {
   return (
-    <Layout canGoBack>
+    <Layout hasTabBar title="라이브">
       <div className="py-10 divide-y-[1px] space-y-4">
         {[1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Link key={i} href={`/live/${i}`}>
