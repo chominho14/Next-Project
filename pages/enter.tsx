@@ -3,11 +3,27 @@ import { cls } from "../libs/utils";
 import Button from "../components/button";
 import Input from "../components/input";
 import type { NextPage } from "next";
+import { useForm } from "react-hook-form";
+
+interface EnterFoprm {
+  email?: string;
+  phone?: string;
+}
 
 export default function Enter() {
+  const { register, handleSubmit, reset } = useForm<EnterFoprm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  };
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+  const onValid = (data: EnterFoprm) => {
+    console.log(data);
+  };
   return (
     <div className="mt-16 px-4">
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
@@ -39,12 +55,26 @@ export default function Enter() {
             </button>
           </div>
         </div>
-        <form className="flex flex-col mt-8 space-y-4">
+        <form
+          onSubmit={handleSubmit(onValid)}
+          className="flex flex-col mt-8 space-y-4"
+        >
           {method === "email" ? (
-            <Input name="email" label="Email address" type="email" required />
+            <Input
+              register={register("email", {
+                required: true,
+              })}
+              name="email"
+              label="Email address"
+              type="email"
+              required
+            />
           ) : null}
           {method === "phone" ? (
             <Input
+              register={register("phone", {
+                required: true,
+              })}
               name="phone"
               label="Phone number"
               type="number"
