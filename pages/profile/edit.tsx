@@ -26,7 +26,7 @@ const EditProfile: NextPage = () => {
     if (user?.phone) setValue("phone", user.phone);
   }, [user, setValue]);
   const onValid = ({ email, phone }: EditProfileForm) => {
-    if (email === "" && phone == "") {
+    if (email === "" && phone === "") {
       setError("formErrors", {
         message: "이메일 또는 핸드폰 번호를 입력해 주세요.",
       });
