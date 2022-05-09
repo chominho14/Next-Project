@@ -162,7 +162,7 @@ model Stream {
   price       Int
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
-  message     Message[]
+  messages    Message[]
 }
 
 model Message {
