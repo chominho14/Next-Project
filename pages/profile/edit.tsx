@@ -37,18 +37,32 @@ const EditProfile: NextPage = () => {
   }, [user, setValue]);
   const [editProfile, { data, loading }] =
     useMutation<EditProfileResponse>(`/api/users/me`);
-  const onValid = ({ email, phone, name, avatar }: EditProfileForm) => {
+  const onValid = async ({ email, phone, name, avatar }: EditProfileForm) => {
     if (loading) return;
     if (email === "" && phone === "" && name === "") {
       return setError("formErrors", {
         message: "이메일 또는 핸드폰 번호를 입력해 주세요.",
       });
     }
-    editProfile({
-      email,
-      phone,
-      name,
-    });
+    if (avatar && avatar.length > 0) {
+      // Cloudflare에게 URL을 요청하고
+      const cloudflareRequest = await (await fetch(`/api/files`)).json();
+      console.log(cloudflareRequest);
+      // URL을 받으면 파일을 업로드하고
+      return;
+      editProfile({
+        email,
+        phone,
+        name,
+        // avatarURL:CF URL
+      });
+    } else {
+      editProfile({
+        email,
+        phone,
+        name,
+      });
+    }
   };
   useEffect(() => {
     if (data && !data.ok && data.error) {
