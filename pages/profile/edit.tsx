@@ -34,6 +34,10 @@ const EditProfile: NextPage = () => {
     if (user?.name) setValue("name", user.name);
     if (user?.email) setValue("email", user.email);
     if (user?.phone) setValue("phone", user.phone);
+    if (user?.avatar)
+      setAvatarPreview(
+        `https://imagedelivery.net/gW7iMYc8PRF7ooz9ysBNKw/${user?.avatar}/public`
+      );
   }, [user, setValue]);
   const [editProfile, { data, loading }] =
     useMutation<EditProfileResponse>(`/api/users/me`);
@@ -46,22 +50,24 @@ const EditProfile: NextPage = () => {
     }
     if (avatar && avatar.length > 0 && user) {
       // Cloudflare에게 URL을 요청하고
-      const { id, uploadURL } = await (await fetch(`/api/files`)).json();
+      const { uploadURL } = await (await fetch(`/api/files`)).json();
 
       // URL을 받으면 파일을 업로드하고
       const form = new FormData();
       form.append("file", avatar[0], user?.id + "");
-      await fetch(uploadURL, {
-        method: "POST",
-        body: form,
-      });
-
-      return;
+      const {
+        result: { id },
+      } = await (
+        await fetch(uploadURL, {
+          method: "POST",
+          body: form,
+        })
+      ).json();
       editProfile({
         email,
         phone,
         name,
-        // avatarURL:CF URL
+        avatarId: id,
       });
     } else {
       editProfile({
