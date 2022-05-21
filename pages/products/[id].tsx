@@ -144,7 +144,12 @@ const ItemDetail: NextPage = () => {
               <Link key={product.id} href={`/products/${product?.id}`}>
                 <a>
                   <div>
-                    <div className="h-56 w-full mb-4 bg-slate-300" />
+                    <Image
+                      width={230}
+                      height={230}
+                      src={`https://imagedelivery.net/gW7iMYc8PRF7ooz9ysBNKw/${product.image}/similarpost`}
+                      className="h-56 w-full mb-4 bg-slate-300 max-w-[230px] max-h-[230px]"
+                    />
                     <h3 className="text-gray-700 -mb-1">{product.name}</h3>
                     <span className="text-xs font-medium text-gray-900">
                       ${product.price}
