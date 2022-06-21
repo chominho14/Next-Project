@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { cls } from "@libs/client/utils";
 import Button from "@components/button";
 import Input from "@components/input";
@@ -6,6 +6,16 @@ import type { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
+
+import dynamic from "next/dynamic";
+
+const Bs = dynamic(
+  () =>
+    new Promise(resolve =>
+      setTimeout(() => resolve(import("@components/bs")), 10000)
+    ),
+  { ssr: false, suspense: true }
+);
 
 interface EnterForm {
   email?: string;
@@ -118,16 +128,21 @@ const Enter: NextPage = () => {
                 />
               ) : null}
               {method === "phone" ? (
-                <Input
-                  register={register("phone", {
-                    required: true,
-                  })}
-                  name="phone"
-                  label="Phone number"
-                  type="number"
-                  kind="phone"
-                  required
-                />
+                <>
+                  <Suspense fallback="Loading something big">
+                    <Bs />
+                  </Suspense>
+                  <Input
+                    register={register("phone", {
+                      required: true,
+                    })}
+                    name="phone"
+                    label="Phone number"
+                    type="number"
+                    kind="phone"
+                    required
+                  />
+                </>
               ) : null}
               {method === "email" ? (
                 <Button text={loading ? "Loading" : "Get login link"} />
