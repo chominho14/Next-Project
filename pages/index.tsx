@@ -6,6 +6,7 @@ import useUser from "@libs/client/useUser";
 import Head from "next/head";
 import useSWR from "swr";
 import { Product } from "@prisma/client";
+import client from "../libs/server/client";
 
 export interface ProductWithCount extends Product {
   _count: {
@@ -18,10 +19,10 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-const Home: NextPage = () => {
+const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   const { user, isLoading } = useUser();
-  const { data } = useSWR<ProductsResponse>("/api/products");
-  console.log(data);
+  // const { data } = useSWR<ProductsResponse>("/api/products");
+  // console.log(data);
   return (
     <Layout title="홈" hasTabBar seoTitle="Home">
       <Head>
@@ -31,13 +32,23 @@ const Home: NextPage = () => {
         "Loading..."
       ) : (
         <div className="flex px-4 flex-col space-y-5">
-          {data?.products?.map(product => (
+          {/* {data?.products?.map(product => (
             <Item
               id={product.id}
               key={product.id}
               title={product.name}
               price={product.price}
               hearts={product._count.favs}
+              image={product.image}
+            />
+          ))} */}
+          {products?.map(product => (
+            <Item
+              id={product.id}
+              key={product.id}
+              title={product.name}
+              price={product.price}
+              hearts={product._count?.favs}
               image={product.image}
             />
           ))}
@@ -63,4 +74,15 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
+
+export async function getServerSideProps() {
+  const products = await client.product.findMany({});
+  console.log(products);
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+    },
+  };
+}
+
 export default Home;
