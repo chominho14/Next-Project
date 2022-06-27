@@ -4,7 +4,7 @@ import FloatingButton from "@components/floating-button";
 import Item from "@components/item";
 import useUser from "@libs/client/useUser";
 import Head from "next/head";
-import useSWR from "swr";
+import useSWR, { SWRConfig } from "swr";
 import { Product } from "@prisma/client";
 import client from "../libs/server/client";
 
@@ -19,10 +19,10 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
+const Home: NextPage = () => {
   const { user, isLoading } = useUser();
-  // const { data } = useSWR<ProductsResponse>("/api/products");
-  // console.log(data);
+  const { data } = useSWR<ProductsResponse>("/api/products");
+  console.log(data);
   return (
     <Layout title="홈" hasTabBar seoTitle="Home">
       <Head>
@@ -32,17 +32,17 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
         "Loading..."
       ) : (
         <div className="flex px-4 flex-col space-y-5">
-          {/* {data?.products?.map(product => (
+          {data?.products?.map(product => (
             <Item
               id={product.id}
               key={product.id}
               title={product.name}
               price={product.price}
-              hearts={product._count.favs}
+              hearts={product._count.favs || 0}
               image={product.image}
             />
-          ))} */}
-          {products?.map(product => (
+          ))}
+          {/* {products?.map(product => (
             <Item
               id={product.id}
               key={product.id}
@@ -51,7 +51,7 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
               hearts={product._count?.favs}
               image={product.image}
             />
-          ))}
+          ))} */}
           <FloatingButton href="/products/upload">
             <svg
               className="h-6 w-6"
@@ -75,9 +75,27 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   );
 };
 
+const Page: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          "/api/products": {
+            ok: true,
+            products,
+          },
+        },
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  );
+};
+
 export async function getServerSideProps() {
   const products = await client.product.findMany({});
   console.log(products);
+  console.log("SSR");
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),
@@ -85,4 +103,6 @@ export async function getServerSideProps() {
   };
 }
 
-export default Home;
+// export default Home;
+
+export default Page;
